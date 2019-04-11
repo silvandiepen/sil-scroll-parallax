@@ -1,6 +1,6 @@
 {
 	"name": "@sil/scroll-parallax",
-	"version": "1.0.0",
+	"version": "1.0.1",
 	"main": "dist/sil-scroll-parallax.umd.js",
 	"module": "dist/sil-scroll-parallax.esm.js",
 	"unpkg": "dist/sil-scroll-parallax.min.js",
