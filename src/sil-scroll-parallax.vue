@@ -1,4 +1,5 @@
 <script>
+/* eslint-disable */
 export default {
 	bind: function(el, binding) {
 		let get = {
@@ -36,29 +37,39 @@ export default {
 		// Set the default settings
 		let settings = {
 			active: false,
-			originalOffset: Math.floor(
-				(binding.value.amount * window.innerHeight) / 24
-			),
-			amount: binding.value.amount,
+			originalOffset: 0,
+			amount: 1.5,
 			translate: '',
 			elRect: el.getBoundingClientRect(),
 			elPos: get.position(el)
 		};
 
-		let init = {
+		let init = {		
+			settings: function(){
+				if(binding.value){
+					if(binding.value.amount){
+						settings.amount =  binding.value.amount;
+						settings.originalOffset = Math.floor(
+							(binding.value.amount * window.innerHeight) / 24
+						)
+					}
+				}
+			},
 			once: function() {
 				settings.translate = settings.originalOffset;
 			},
-			check: function() {
+			setPosition: function() {
 				let point =
 					(el.parentElement.getBoundingClientRect().top -
 						window.innerHeight / 2) *
 					1 *
 					settings.amount *
 					0.1;
-				if (point < 0) {
-					settings.translate = 0;
-				} else if (point >= settings.originalOffset + 1) {
+					console.log(point);
+				// if (point < 0) {
+				// 	settings.translate = 0;
+				// } else 
+				if (point >= settings.originalOffset + 1) {
 					if (settings.originalOffset != settings.translate) {
 						settings.translate = settings.originalOffset;
 					}
@@ -76,9 +87,10 @@ export default {
 		// When scrolling, check the position.
 		window.addEventListener('scroll', function() {
 			if (el.getBoundingClientRect().top - window.innerHeight < 0) {
-				init.check();
+				init.setPosition();
 			}
 		});
+		init.settings();
 		init.once();
 	}
 };
