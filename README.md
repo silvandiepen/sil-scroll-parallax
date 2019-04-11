@@ -1,4 +1,4 @@
-# Scroll Trigger
+# Scroll Parallax
 
 A simple Vue Directive to parallax an element. 
 
