@@ -65,10 +65,6 @@ export default {
 					1 *
 					settings.amount *
 					0.1;
-					console.log(point);
-				// if (point < 0) {
-				// 	settings.translate = 0;
-				// } else 
 				if (point >= settings.originalOffset + 1) {
 					if (settings.originalOffset != settings.translate) {
 						settings.translate = settings.originalOffset;
