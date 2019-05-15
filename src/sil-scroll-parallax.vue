@@ -37,6 +37,8 @@ export default {
 		// Set the default settings
 		let settings = {
 			active: false,
+			debug: false,
+			output: 'translate',
 			originalOffset: 0,
 			amount: 1.5,
 			translate: '',
@@ -44,14 +46,20 @@ export default {
 			elPos: get.position(el)
 		};
 
-		let init = {		
-			settings: function(){
-				if(binding.value){
-					if(binding.value.amount){
-						settings.amount =  binding.value.amount;
+		let init = {
+			settings: function() {
+				if (binding.value) {
+					if (binding.value.amount) {
+						settings.amount = binding.value.amount;
 						settings.originalOffset = Math.floor(
 							(binding.value.amount * window.innerHeight) / 24
-						)
+						);
+					}
+					if (binding.value.debug) {
+						settings.debug = binding.value.debug;
+					}
+					if (binding.value.output) {
+						settings.output = binding.value.output;
 					}
 				}
 			},
@@ -61,18 +69,26 @@ export default {
 			setPosition: function() {
 				let point =
 					(el.parentElement.getBoundingClientRect().top -
-						window.innerHeight / 2) *
-					1 *
-					settings.amount *
-					0.1;
-				if (point >= settings.originalOffset + 1) {
-					if (settings.originalOffset != settings.translate) {
-						settings.translate = settings.originalOffset;
-					}
-				} else {
+						window.innerHeight / 2) * 1 * settings.amount * 0.1;
+				// if (point >= settings.originalOffset + 1) {
+				// 	if (settings.originalOffset != settings.translate) {
+				// 		settings.translate = settings.originalOffset;
+				// 	}
+				// } else {
 					settings.translate = point;
+				// }
+				if (settings.debug) {
+					console.log((point / settings.elRect.height));
+					// console.log(settings.translate, point, (point / settings.elRect.height));
 				}
-				el.style.transform = `translateY(${settings.translate}px)`;
+				switch (settings.output) {
+					case 'translate':
+						el.style.transform = `translateY(${settings.translate}px)`;
+						break;
+					case 'property':
+						el.style.setProperty('--parallax', `${settings.translate}px`);
+						break;
+				}
 			}
 		};
 
