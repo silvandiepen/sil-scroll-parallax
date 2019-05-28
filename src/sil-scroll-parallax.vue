@@ -40,6 +40,7 @@ export default {
 			debug: false,
 			output: 'translate',
 			originalOffset: 0,
+			minWidth: 0,
 			amount: 1.5,
 			translate: '',
 			elRect: el.getBoundingClientRect(),
@@ -61,6 +62,9 @@ export default {
 					if (binding.value.output) {
 						settings.output = binding.value.output;
 					}
+					if (binding.value.minWidth && binding.value.minWidth > 0) {
+						settings.minWidth = binding.value.minWidth;
+					}
 				}
 			},
 			once: function() {
@@ -69,17 +73,13 @@ export default {
 			setPosition: function() {
 				let point =
 					(el.parentElement.getBoundingClientRect().top -
-						window.innerHeight / 2) * 1 * settings.amount * 0.1;
-				// if (point >= settings.originalOffset + 1) {
-				// 	if (settings.originalOffset != settings.translate) {
-				// 		settings.translate = settings.originalOffset;
-				// 	}
-				// } else {
+						window.innerHeight / 2) *
+					1 *
+					settings.amount *
+					0.1;
 					settings.translate = point;
-				// }
 				if (settings.debug) {
-					console.log((point / settings.elRect.height));
-					// console.log(settings.translate, point, (point / settings.elRect.height));
+					console.log(point / el.parentElement.getBoundingClientRect().height);
 				}
 				switch (settings.output) {
 					case 'translate':
@@ -98,8 +98,10 @@ export default {
 		});
 		// When scrolling, check the position.
 		window.addEventListener('scroll', function() {
-			if (el.getBoundingClientRect().top - window.innerHeight < 0) {
-				init.setPosition();
+			if (!settings.minWidth || settings.minWidth < window.innerWidth) {
+				if (el.getBoundingClientRect().top - window.innerHeight < 0) {
+					init.setPosition();
+				}
 			}
 		});
 		init.settings();

@@ -26,3 +26,12 @@ Use the component with default values:
 ```
 
 
+#### Arguments
+
+| Argument       | Default     | Description                                                                                           |
+| -------------- | ----------- | ----------------------------------------------------------------------------------------------------- |
+| debug          | false       | Show debugging information about this element                                                         |
+| output         | 'translate' | Options: 'translate' / 'property ', Set the value directly on a translate or on a css custom property |
+| originalOffset | 0           | Change the initial offset of the element                                                              |
+| minWidth       | 0           | Trigger the parallax from this value.                                                                 |
+| amount         | 1.5         | Amount of parallax                                                                                    |
